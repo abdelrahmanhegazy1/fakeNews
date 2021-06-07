@@ -55,8 +55,7 @@ if __name__ == '__main__':
       else:
          df4['label'][i]=1
 
-#   df3.drop(labels=['subcategory', 'text'], axis=1, inplace=True)
-#   df4.drop(labels=['fake', 'real'], axis=1, inplace=True)
+
 
 
    df3.title=df3.title.astype(str)
@@ -67,17 +66,7 @@ if __name__ == '__main__':
    for i in range(len(finaldf)):
       print(i,finaldf['title'][i])
    print(len(finaldf))
-   # df1 = pd.read_csv('Fake.csv')
-   # df2 = pd.read_csv('True.csv')
-   # df2['target'] = 1
-   # df1['target'] = 0
-   # frames = [df1, df2]
-   # df = pd.concat(frames)
-   # df['news']=df['title']+df['text']
-   # df.drop(labels=['title', 'text'], axis=1, inplace=True)
-   # df.drop(labels=['subcategory'],axis=1,inplace=True)
-   # df.drop(labels=['title', 'text'], axis=1, inplace=True)
-   # df.drop(labels=['subject', 'date'], axis=1, inplace=True)
+
    finaldf = finaldf.sample(frac=1)
    X_train, X_test, y_train, y_test = train_test_split(df5.text, df5.target, test_size=0.3, random_state=37)
    tk = Tokenizer(num_words=10000,
@@ -85,14 +74,6 @@ if __name__ == '__main__':
    tk.fit_on_texts(X_train)
    X_train_seq = tk.texts_to_sequences(X_train)
    X_test_seq = tk.texts_to_sequences(X_test)
-   # max=0
-   # maxtest=0
-   # for item in X_train_seq:
-   #    if(len(item)>max):
-   #       max=len(item)
-   # for item in X_test_seq:
-   #    if(len(item)>maxtest):
-   #       maxtest=len(item)
 
    X_train_seq_trunc = pad_sequences(X_train_seq, maxlen=100)
    X_test_seq_trunc = pad_sequences(X_test_seq, maxlen=100)
@@ -102,6 +83,8 @@ if __name__ == '__main__':
    # Adding the embedding layer which will take in maximum of 450 words as input and provide a 32 dimensional output of those words which belong in the top_words dictionary
    model.add(Embedding(len(tk.index_word), 32, input_length=100))
    model.add(LSTM(100))
+
+   #CNN
    # model.add(Conv1D(16, 4, padding='valid', activation='relu'))
    # model.add(MaxPooling1D())
    # model.add(Conv1D(32, 4, activation='relu'))
